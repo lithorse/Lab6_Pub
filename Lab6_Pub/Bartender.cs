@@ -8,5 +8,6 @@ namespace Lab6_Pub
 {
     class Bartender
     {
+        
     }
 }
