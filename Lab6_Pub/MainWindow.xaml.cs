@@ -32,7 +32,7 @@ namespace Lab6_Pub
         Random random = new Random();
         int counter;
         int patronsCounter;
-        bool pubOpen;
+        public bool pubOpen;
 
         int glasses = 8;
         int chairs = 9;
@@ -47,87 +47,62 @@ namespace Lab6_Pub
             waitress = new Waitress();
             bartender = new Bartender();
 
+            Close_Pub += bouncer.On_Close;
+
             counter = 1;
             pubOpen = true;
 
-            Task.Run(() => Bouncer_Work());
-            Task.Run(() => Bartender_Work());
-
-            //queue.TryDequeue(out Patron activePatron);
-            //Listbox_Patrons.Items.Insert(0, activePatron.Name);
+            Task.Run(() => bouncer.Bouncer_Work(Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
+            Task.Run(() => bartender.Bartender_Work(Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Glasses, Change_Glasses));
         }
 
-        private void Bouncer_Work()
-        {
-            while (pubOpen)
-            {
-                Thread.Sleep(random.Next(3000, 10000));
-                if (pubOpen)
-                {
-                    Patron latestPatron = bouncer.LetInPatron();
-                    patronsCounter++;
-                    Dispatcher.Invoke(() =>
-                    {
-                        Listbox_Patrons.Items.Insert(0, $"{counter} {latestPatron.Name} entered the bar");
-                    });
-                    Task.Run(() =>
-                    {
-                        Thread.Sleep(1000);
-                        barQueue.Enqueue(latestPatron);
-                    /*Dispatcher.Invoke(() =>
-                    {
-                        Listbox_Patrons.Items.Insert(0, $"{counter} {barQueue.Last().Name} stands in queue at the bar");
-                    });
-                    counter++;*/
-                    });
-                    counter++;
-                }
-            }
-        }
-
-        private void Bartender_Work()
+        public void Add_To_Listbox_Patrons(String str)
         {
             Dispatcher.Invoke(() =>
             {
-                Listbox_Bartender.Items.Insert(0, $"{counter} The bartender waits for visitors");
+                Listbox_Patrons.Items.Insert(0, $"{counter} {str}");
             });
             counter++;
-            while (pubOpen || patronsCounter > 0)
-            {
-                if (!barQueue.IsEmpty && glasses > 0)
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        Listbox_Bartender.Items.Insert(0, $"{counter} The bartender gets a glass");
-                    });
-                    counter++;
-                    Thread.Sleep(3000);
-                    glasses--;
-                    Dispatcher.Invoke(() =>
-                    {
-                        Listbox_Bartender.Items.Insert(0, $"{counter} The bartender pours a beer");
-                    });
-                    counter++;
-                    Thread.Sleep(3000);
-                    Dispatcher.Invoke(() =>
-                    {
-                        Listbox_Patrons.Items.Insert(0, $"{counter} {barQueue.First().Name} grabs the beer and looks for a chair");
-                    });
-                    counter++;
-                    barQueue.TryDequeue(out Patron patron);
-                    chairQueue.Enqueue(patron);
-                }
-            }
-        }
-
-        private void Button_Pause_Click(object sender, RoutedEventArgs e)
-        {
-            pubOpen = false;
         }
 
         public void Add_To_Listbox_Bartender(String str)
         {
+            Dispatcher.Invoke(() =>
+            {
+                Listbox_Bartender.Items.Insert(0, $"{counter} {str}");
+            });
             counter++;
+        }
+
+        public bool Check_Bar_Queue()
+        {
+            return !barQueue.IsEmpty;
+        }
+
+        public bool Check_Glasses()
+        {
+            return glasses > 0;
+        }
+
+        public string Get_First_Patron()
+        {
+            return barQueue.First().Name;
+        }
+
+        public void Change_Glasses(int value) => glasses += value;
+        public void Change_Patrons_Counter(int value) => patronsCounter += value;
+
+        public void Add_Patron_To_BarQueue(Patron patron)
+        {
+            bartender.Drink_Served += patron.On_Drink_Served/*(add_To_Listbox_Patron, get_First_Patron_Name)*/;
+            barQueue.Enqueue(patron);
+        }
+        
+        public event Action Close_Pub;
+
+        private void Button_Close_Pub_Click(object sender, RoutedEventArgs e)
+        {
+            Close_Pub();
         }
     }
 }
