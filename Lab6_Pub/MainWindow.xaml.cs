@@ -34,13 +34,20 @@ namespace Lab6_Pub
         ConcurrentQueue<Patron> barQueue = new ConcurrentQueue<Patron>();
         ConcurrentQueue<Patron> chairQueue = new ConcurrentQueue<Patron>();
         ConcurrentStack<Chair> chairStack = new ConcurrentStack<Chair>();
+        ConcurrentQueue<Glass> dirtyGlassQueue = new ConcurrentQueue<Glass>();
+        ConcurrentStack<Glass> cleanGlassStack = new ConcurrentStack<Glass>();
+
         Random random = new Random();
         int counter;
         int patronsCounter;
         public bool pubOpen;
 
+        int availableChairs = 0;
         int chairs = 9;
-        public int glasses = 8;
+        int glasses = 8;
+        int cleanGlasses;
+        int dirtyGlasses;
+
         int barQueueData = 0;
         int chairQueueData = 0;
 
@@ -69,7 +76,28 @@ namespace Lab6_Pub
             get { return chairStack.Count; }
             set
             {
-                chairs = value;
+                availableChairs = value;
+                OnPropertyChanged();
+            }
+
+        }
+
+        public int CleanGlassStackCount
+        {
+            get { return cleanGlassStack.Count; }
+            set
+            {
+                cleanGlasses = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int DirtyGlassQueueCount
+        {
+            get { return dirtyGlassQueue.Count; }
+            set
+            {
+                dirtyGlasses= value;
                 OnPropertyChanged();
             }
         }
@@ -93,7 +121,6 @@ namespace Lab6_Pub
                 OnPropertyChanged();
             }
         }
-
 
         Bouncer bouncer;
         Waitress waitress;
@@ -122,21 +149,30 @@ namespace Lab6_Pub
 
             bartender.Drink_Served += On_Drink_Served;
             Close_Pub += bouncer.On_Close;
+            Close_Pub += bartender.On_Close;
+            Close_Pub += waitress.On_Close;
 
 
             counter = 1;
             pubOpen = true;
             Task.Run(() =>
             {
+                for (int i = 0; i < glasses; i++)
+                {
+                    cleanGlassStack.Push(new Glass());
+                }
+
                 for (int i = 0; i < chairs; i++)
                 {
                     chairStack.Push(new Chair());
                 };
+                CleanGlassStackCount = cleanGlassStack.Count();
                 ChairStackCount = chairStack.Count();
                 OnPropertyChanged();
             });
             Task.Run(() => bouncer.Bouncer_Work(Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
-            Task.Run(() => bartender.Bartender_Work(Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Glasses, Change_Glasses));
+            Task.Run(() => bartender.Bartender_Work(Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Glasses, Take_Clean_Glass));
+            Task.Run(() => waitress.WaitressWork(Add_To_Listbox_Waitress, Take_Dirty_Glass, GetPatronsCount, Place_Clean_Glass));
         }
 
         public void Add_To_Listbox_Patrons(String str)
@@ -157,6 +193,15 @@ namespace Lab6_Pub
             counter++;
         }
 
+        public void Add_To_Listbox_Waitress(String str)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Listbox_Waitress.Items.Insert(0, $"{counter} {str}");
+            });
+            counter++;
+        }
+
         public bool Check_Bar_Queue()
         {
             return !barQueue.IsEmpty;
@@ -164,7 +209,7 @@ namespace Lab6_Pub
 
         public bool Check_Glasses()
         {
-            return glasses > 0;
+            return CleanGlassStackCount > 0;
         }
 
         public string Get_First_Patron()
@@ -172,14 +217,32 @@ namespace Lab6_Pub
             return barQueue.First().Name;
         }
 
-        public void Change_Glasses(int value)
+        public Glass Take_Clean_Glass()
         {
-            Glasses += value;
+            cleanGlassStack.TryPop(out Glass glass);
+            CleanGlassStackCount = cleanGlassStack.Count();
+            OnPropertyChanged();
+            return glass;
+        }
+
+        public Glass Take_Dirty_Glass()
+        {
+            dirtyGlassQueue.TryDequeue(out Glass glass);
+            DirtyGlassQueueCount = dirtyGlassQueue.Count();
+            OnPropertyChanged();
+            return glass;
+        }
+
+        public void Place_Clean_Glass(Glass glass)
+        {
+            cleanGlassStack.Push(glass);
+            CleanGlassStackCount = cleanGlassStack.Count();
             OnPropertyChanged();
         }
 
         public void Change_Patrons_Counter(int value) => patronsCounter += value;
 
+        public bool GetPatronsCount() => patronsCounter > 0;
 
         public void ChangeBarQueueData()
         {
@@ -213,16 +276,17 @@ namespace Lab6_Pub
             Close_Pub();
         }
 
-        public void On_Drink_Served()
+        public void On_Drink_Served(Glass glass)
         {
             Dispatcher.Invoke(() => Listbox_Patrons.Items.Insert(0, $"{counter} {barQueue.First().Name} grabs the beer and looks for a chair"));
             counter++;
             barQueue.TryDequeue(out Patron patron);
             Change_Barqueue();
-            Thread.Sleep(4000);
+            patron.Glass = glass;
             chairQueue.Enqueue(patron);
             Change_ChairQueue();
-            Task.Run(() => patron.Drink(Add_To_Listbox_Patrons, FirstChairQueue));
+            Thread.Sleep(4000);
+            Task.Run(() => patron.Drink(Add_To_Listbox_Patrons, FirstChairQueue, TakeChair, Go_Home));
         }
         public bool FirstChairQueue(Patron patron)
         {
@@ -231,9 +295,22 @@ namespace Lab6_Pub
 
         public Chair TakeChair()
         {
+            chairQueue.TryDequeue(out Patron patron);
+            Change_ChairQueue();
             chairStack.TryPop(out Chair chair);
+            ChairStackCount = chairStack.Count();
+            OnPropertyChanged();
             return chair;
         }
 
+        public void Go_Home(Chair chair, Glass glass)
+        {
+            chairStack.Push(chair);
+            ChairStackCount = chairStack.Count();
+            dirtyGlassQueue.Enqueue(glass);
+            DirtyGlassQueueCount = dirtyGlassQueue.Count();
+            OnPropertyChanged();
+            patronsCounter--;
+        }
     }
 }
