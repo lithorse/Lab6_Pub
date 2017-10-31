@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,13 +22,13 @@ namespace Lab6_Pub
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public MainWindow()
         {
+            DataContext = this;
             InitializeComponent();
         }
-
         ConcurrentQueue<Patron> barQueue = new ConcurrentQueue<Patron>();
         ConcurrentQueue<Patron> chairQueue = new ConcurrentQueue<Patron>();
         Random random = new Random();
@@ -34,8 +36,19 @@ namespace Lab6_Pub
         int patronsCounter;
         public bool pubOpen;
 
-        int glasses = 8;
         int chairs = 9;
+        public int glasses = 8;
+
+        public int Glasses
+        {
+            get { return glasses; }
+            set
+            {
+                glasses = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         Bouncer bouncer;
         Waitress waitress;
@@ -89,7 +102,12 @@ namespace Lab6_Pub
             return barQueue.First().Name;
         }
 
-        public void Change_Glasses(int value) => glasses += value;
+        public void Change_Glasses(int value)
+        {
+            Glasses += value;
+            OnPropertyChanged();
+        }
+
         public void Change_Patrons_Counter(int value) => patronsCounter += value;
 
         public void Add_Patron_To_BarQueue(Patron patron)
@@ -97,8 +115,13 @@ namespace Lab6_Pub
             bartender.Drink_Served += patron.On_Drink_Served/*(add_To_Listbox_Patron, get_First_Patron_Name)*/;
             barQueue.Enqueue(patron);
         }
-        
+
         public event Action Close_Pub;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void Button_Close_Pub_Click(object sender, RoutedEventArgs e)
         {
