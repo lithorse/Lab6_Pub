@@ -10,14 +10,20 @@ namespace Lab6_Pub
     class Bartender
     {
         bool pubOpen = true;
+        Glass glass;
         public delegate void Listbox_Add_Delegate(String str);
         public delegate bool Check_Bar_Queue_Delegate();
         public delegate bool Check_Glasses_Delegate();
-        public delegate void Change_Glasses_Delegate(int value);
+        public delegate Glass Take_Glass_Delegate();
 
-        public event Action Drink_Served;
+        public event Action<Glass> Drink_Served;
 
-        public void Bartender_Work(Listbox_Add_Delegate listbox_Add_Delegate, Check_Bar_Queue_Delegate check_Bar_Queue, Check_Glasses_Delegate check_Glasses_Delegate, Change_Glasses_Delegate change_Glasses_Delegate)
+        public void On_Close()
+        {
+            pubOpen = false;
+        }
+
+        public void Bartender_Work(Listbox_Add_Delegate listbox_Add_Delegate, Check_Bar_Queue_Delegate check_Bar_Queue, Check_Glasses_Delegate check_Glasses_Delegate, Take_Glass_Delegate take_Glass_Delegate)
         {
             listbox_Add_Delegate("The bartender waits for patrons");
             while (pubOpen || check_Bar_Queue())
@@ -25,11 +31,12 @@ namespace Lab6_Pub
                 if (check_Bar_Queue() && check_Glasses_Delegate())
                 {
                     listbox_Add_Delegate("The bartender gets a glass");
+                    glass = take_Glass_Delegate();
                     Thread.Sleep(3000);
-                    change_Glasses_Delegate(-1);
                     listbox_Add_Delegate("The bartender pours a beer");
                     Thread.Sleep(3000);
-                    Drink_Served();
+                    Drink_Served(glass);
+                    glass = null;
                 }
             }
         }
