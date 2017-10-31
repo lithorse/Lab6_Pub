@@ -28,9 +28,12 @@ namespace Lab6_Pub
         {
             DataContext = this;
             InitializeComponent();
+            Change_Barqueue += ChangeBarQueueData;
+            Change_ChairQueue += ChangeChairQueueData;
         }
         ConcurrentQueue<Patron> barQueue = new ConcurrentQueue<Patron>();
         ConcurrentQueue<Patron> chairQueue = new ConcurrentQueue<Patron>();
+        ConcurrentStack<Chair> chairStack = new ConcurrentStack<Chair>();
         Random random = new Random();
         int counter;
         int patronsCounter;
@@ -38,6 +41,48 @@ namespace Lab6_Pub
 
         int chairs = 9;
         public int glasses = 8;
+        int barQueueData = 0;
+        int chairQueueData = 0;
+
+        public int BarQueueData
+        {
+            get { return barQueueData; }
+            set
+            {
+                barQueueData = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Chairs
+        {
+            get { return chairs; }
+            set
+            {
+                chairs = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int ChairStackCount
+        {
+            get { return chairStack.Count; }
+            set
+            {
+                chairs = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int ChairQueueData
+        {
+            get { return chairQueueData; }
+            set
+            {
+                chairQueueData = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int Glasses
         {
@@ -56,15 +101,40 @@ namespace Lab6_Pub
 
         private void Button_Start_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                Chairs = Int32.Parse(Chair_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input, \n - Chairs");
+                return;
+            }
+            if (Chairs < 1)
+            {
+                MessageBox.Show("Invalid input \n - Need atleast one chair");
+                return;
+            }
+
             bouncer = new Bouncer();
             waitress = new Waitress();
             bartender = new Bartender();
 
+            bartender.Drink_Served += On_Drink_Served;
             Close_Pub += bouncer.On_Close;
+
 
             counter = 1;
             pubOpen = true;
-
+            Task.Run(() =>
+            {
+                for (int i = 0; i < chairs; i++)
+                {
+                    chairStack.Push(new Chair());
+                };
+                ChairStackCount = chairStack.Count();
+                OnPropertyChanged();
+            });
             Task.Run(() => bouncer.Bouncer_Work(Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
             Task.Run(() => bartender.Bartender_Work(Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Glasses, Change_Glasses));
         }
@@ -110,10 +180,25 @@ namespace Lab6_Pub
 
         public void Change_Patrons_Counter(int value) => patronsCounter += value;
 
+
+        public void ChangeBarQueueData()
+        {
+            BarQueueData = barQueue.Count();
+        }
+        public void ChangeChairQueueData()
+        {
+            ChairQueueData = chairQueue.Count();
+        }
+
+        public event Action Change_Barqueue;
+        public event Action Change_ChairQueue;
+
+
+
         public void Add_Patron_To_BarQueue(Patron patron)
         {
-            bartender.Drink_Served += patron.On_Drink_Served/*(add_To_Listbox_Patron, get_First_Patron_Name)*/;
             barQueue.Enqueue(patron);
+            Change_Barqueue();
         }
 
         public event Action Close_Pub;
@@ -127,5 +212,28 @@ namespace Lab6_Pub
         {
             Close_Pub();
         }
+
+        public void On_Drink_Served()
+        {
+            Dispatcher.Invoke(() => Listbox_Patrons.Items.Insert(0, $"{counter} {barQueue.First().Name} grabs the beer and looks for a chair"));
+            counter++;
+            barQueue.TryDequeue(out Patron patron);
+            Change_Barqueue();
+            Thread.Sleep(4000);
+            chairQueue.Enqueue(patron);
+            Change_ChairQueue();
+            Task.Run(() => patron.Drink(Add_To_Listbox_Patrons, FirstChairQueue));
+        }
+        public bool FirstChairQueue(Patron patron)
+        {
+            return chairQueue.First() == patron;
+        }
+
+        public Chair TakeChair()
+        {
+            chairStack.TryPop(out Chair chair);
+            return chair;
+        }
+
     }
 }
