@@ -28,6 +28,8 @@ namespace Lab6_Pub
             listbox_Add_Delegate("The bartender waits for patrons");
             while (pubOpen || check_Bar_Queue())
             {
+                Thread.Sleep(10);
+
                 if (check_Bar_Queue() && check_Glasses_Delegate())
                 {
                     listbox_Add_Delegate("The bartender gets a glass");

@@ -22,21 +22,22 @@ namespace Lab6_Pub
         public delegate void Place_Clean_Glass_Delegate(Glass glass);
         public delegate void Listbox_Add_Delegate(string str);
 
-        public void WaitressWork( Listbox_Add_Delegate listbox_Add_Delegate, Get_Dirty_Glass_Delegate get_Dirty_Glass_Delegate, Get_Patrons_Count_Delegate get_Patrons_Count_Delegate, Place_Clean_Glass_Delegate place_Clean_Glass_Delegate)
+        public void WaitressWork(Listbox_Add_Delegate listbox_Add_Delegate, Get_Dirty_Glass_Delegate get_Dirty_Glass_Delegate, Get_Patrons_Count_Delegate get_Patrons_Count_Delegate, Place_Clean_Glass_Delegate place_Clean_Glass_Delegate)
         {
             listbox_Add_Delegate("The waitress is awaiting dirty glasses");
             while (pubOpen || get_Patrons_Count_Delegate())
             {
                 while (Glass == null)
                 {
+                Thread.Sleep(10);
                     //try
                     //{
-                        Glass = get_Dirty_Glass_Delegate();
-                //}
-                //    catch
-                //{
-                //}
-            }
+                    Glass = get_Dirty_Glass_Delegate();
+                    //}
+                    //    catch
+                    //{
+                    //}
+                }
                 listbox_Add_Delegate("The waitress gets a dirty glass");
                 Thread.Sleep(10000);
                 listbox_Add_Delegate("The waitress cleans the glass");

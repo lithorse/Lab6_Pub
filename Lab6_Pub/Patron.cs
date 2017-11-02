@@ -28,6 +28,7 @@ namespace Lab6_Pub
         {
             while (true)
             {
+                Thread.Sleep(10);
                 if (firstInQueue(this))
                 {
                     add_To_Listbox_Patron($"{Name} sits down and drinks the beer");
