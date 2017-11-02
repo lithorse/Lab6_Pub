@@ -22,7 +22,7 @@ namespace Lab6_Pub
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
@@ -42,14 +42,28 @@ namespace Lab6_Pub
         int patronsCounter;
         public bool pubOpen;
 
-        int availableChairs = 0;
-        int chairs = 9;
-        int glasses = 8;
+        int availableChairs;
+        int chairs;
+        int glasses;
         int cleanGlasses;
         int dirtyGlasses;
+        int timer;
 
         int patronsInBarQueue = 0;
         int patronsInChairQueue = 0;
+
+        public int PatronsCounter
+        {
+            get { return patronsCounter; }
+            set
+            {
+                patronsCounter = value;
+                Dispatcher.Invoke(() =>
+                {
+                    Label_Patrons_Count.Content = "" + patronsCounter;
+                });
+            }
+        }
 
         public int PatronsInBarQueue
         {
@@ -57,7 +71,10 @@ namespace Lab6_Pub
             set
             {
                 patronsInBarQueue = value;
-                OnPropertyChanged();
+                Dispatcher.Invoke(() =>
+                {
+                    Label_Patron_BarQueue_Count.Content = "" + patronsInBarQueue;
+                });
             }
         }
 
@@ -67,7 +84,10 @@ namespace Lab6_Pub
             set
             {
                 patronsInChairQueue = value;
-                OnPropertyChanged();
+                Dispatcher.Invoke(() =>
+                {
+                    Label_Patron_ChairQueue_Count.Content = "" + patronsInChairQueue;
+                });
             }
         }
 
@@ -77,7 +97,6 @@ namespace Lab6_Pub
             set
             {
                 chairs = value;
-                OnPropertyChanged();
             }
         }
 
@@ -87,7 +106,10 @@ namespace Lab6_Pub
             set
             {
                 availableChairs = value;
-                OnPropertyChanged();
+                Dispatcher.Invoke(() =>
+                {
+                    Label_Available_Chairs_Count.Content = "" + availableChairs;
+                });
             }
 
         }
@@ -98,7 +120,6 @@ namespace Lab6_Pub
             set
             {
                 glasses = value;
-                OnPropertyChanged();
             }
         }
 
@@ -108,7 +129,10 @@ namespace Lab6_Pub
             set
             {
                 cleanGlasses = value;
-                OnPropertyChanged();
+                Dispatcher.Invoke(() =>
+                {
+                    Label_Clean_Glasses_Count.Content = "" + cleanGlasses;
+                });
             }
         }
 
@@ -117,8 +141,24 @@ namespace Lab6_Pub
             get { return dirtyGlassQueue.Count; }
             set
             {
-                dirtyGlasses= value;
-                OnPropertyChanged();
+                dirtyGlasses = value;
+                Dispatcher.Invoke(() =>
+                {
+                    Label_Dirty_Glasses_Count.Content = "" + dirtyGlasses;
+                });
+            }
+        }
+
+        public int Timer
+        {
+            get { return timer; }
+            set
+            {
+                timer = value;
+                Dispatcher.Invoke(() =>
+                {
+                    Timer_TextBox.Text = "" + timer;
+                });
             }
         }
 
@@ -140,6 +180,41 @@ namespace Lab6_Pub
             if (Chairs < 1)
             {
                 MessageBox.Show("Invalid input \n - Need atleast one chair");
+                return;
+            }
+
+            try
+            {
+                Glasses = Int32.Parse(Glasses_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input, \n - Glasses");
+                return;
+            }
+            if (Glasses < 1)
+            {
+                MessageBox.Show("Invalid input \n - Need atleast one glass");
+                return;
+            }
+
+            try
+            {
+                Timer = Int32.Parse(Timer_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input, \n - Timer");
+                return;
+            }
+            if (Timer < 0)
+            {
+                MessageBox.Show("Invalid input \n - Timer can't be less than 0");
+                return;
+            }
+            else if (Timer == 0)
+            {
+                MessageBox.Show("Invalid input \n - Timer can't be 0");
                 return;
             }
 
@@ -168,26 +243,25 @@ namespace Lab6_Pub
                 };
                 CleanGlassStackCount = cleanGlassStack.Count();
                 ChairStackCount = chairStack.Count();
-                OnPropertyChanged();
             });
-            Task.Run(() => Add_To_Listbox_Waitress("test")); 
+
+            Task.Run(() => Start_Timer());
             Task.Run(() => bouncer.Bouncer_Work(Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
             Task.Run(() => bartender.Bartender_Work(Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
-            Task.Run(() => waitress.WaitressWork(Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass));
+            Task.Run(() => waitress.WaitressWork(Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
+
+            Glasses_TextBox.IsEnabled = false;
+            Chair_TextBox.IsEnabled = false;
+            Timer_TextBox.IsEnabled = false;
         }
 
         public event Action Change_Barqueue;
         public event Action Change_ChairQueue;
         public event Action Close_Pub;
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
         #region ListBox outpu
-        public void Change_Patrons_Counter(int value) => patronsCounter += value;
-        public bool Get_Patrons_Count() => patronsCounter > 0;
+        public void Change_Patrons_Counter(int value) => PatronsCounter += value;
+        public bool Get_Patrons_Count() => PatronsCounter > 0;
 
         public void Add_To_Listbox_Patrons(String str)
         {
@@ -215,7 +289,7 @@ namespace Lab6_Pub
             });
             counter++;
         }
-#endregion
+        #endregion
         public bool Check_Bar_Queue()
         {
             return !barQueue.IsEmpty;
@@ -256,7 +330,6 @@ namespace Lab6_Pub
         {
             cleanGlassStack.TryPop(out Glass glass);
             CleanGlassStackCount = cleanGlassStack.Count();
-            OnPropertyChanged();
             return glass;
         }
 
@@ -264,14 +337,20 @@ namespace Lab6_Pub
         {
             cleanGlassStack.Push(glass);
             CleanGlassStackCount = cleanGlassStack.Count();
-            OnPropertyChanged();
+        }
+
+        public bool Check_Dirty_Glasses()
+        {
+            return dirtyGlassQueue.Count() == 0;
         }
 
         public Glass Take_Dirty_Glass()
         {
             dirtyGlassQueue.TryDequeue(out Glass glass);
-            DirtyGlassQueueCount = dirtyGlassQueue.Count();
-            OnPropertyChanged();
+            if (dirtyGlassQueue.Count() == 0)
+            {
+                DirtyGlassQueueCount = 0;
+            }
             return glass;
         }
 
@@ -281,7 +360,6 @@ namespace Lab6_Pub
             Change_ChairQueue();
             chairStack.TryPop(out Chair chair);
             ChairStackCount = chairStack.Count();
-            OnPropertyChanged();
             return chair;
         }
 
@@ -304,8 +382,18 @@ namespace Lab6_Pub
             ChairStackCount = chairStack.Count();
             dirtyGlassQueue.Enqueue(glass);
             DirtyGlassQueueCount = dirtyGlassQueue.Count();
-            OnPropertyChanged();
-            patronsCounter--;
+            PatronsCounter--;
+        }
+
+        public void Start_Timer()
+        {
+            while (timer > 0)
+            {
+                Thread.Sleep(1000);
+                Timer--;
+
+            }
+            Close_Pub();
         }
 
         private void Button_Close_Pub_Click(object sender, RoutedEventArgs e)

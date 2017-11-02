@@ -38,6 +38,7 @@ namespace Lab6_Pub
                     });
                 }
             }
+            listbox_Add_Delegate("The bouncer goes home");
         }
     }
 }
