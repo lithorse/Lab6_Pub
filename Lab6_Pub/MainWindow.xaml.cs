@@ -170,7 +170,7 @@ namespace Lab6_Pub
                 ChairStackCount = chairStack.Count();
                 OnPropertyChanged();
             });
-
+            Task.Run(() => Add_To_Listbox_Waitress("test")); 
             Task.Run(() => bouncer.Bouncer_Work(Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
             Task.Run(() => bartender.Bartender_Work(Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
             Task.Run(() => waitress.WaitressWork(Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass));
@@ -185,7 +185,7 @@ namespace Lab6_Pub
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        #region ListBox outpu
         public void Change_Patrons_Counter(int value) => patronsCounter += value;
         public bool Get_Patrons_Count() => patronsCounter > 0;
 
@@ -215,7 +215,7 @@ namespace Lab6_Pub
             });
             counter++;
         }
-
+#endregion
         public bool Check_Bar_Queue()
         {
             return !barQueue.IsEmpty;
