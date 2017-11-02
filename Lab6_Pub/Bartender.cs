@@ -41,6 +41,7 @@ namespace Lab6_Pub
                     glass = null;
                 }
             }
+            listbox_Add_Delegate("The bartender goes home");
         }
     }
 }

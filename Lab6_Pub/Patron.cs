@@ -36,6 +36,7 @@ namespace Lab6_Pub
                     Thread.Sleep(Random.Next(10000, 20000));
                     add_To_Listbox_Patron($"{Name} finishes the beer and leaves the bar");
                     go_Home(Chair, Glass);
+                    return;
                 }
             }
         }
