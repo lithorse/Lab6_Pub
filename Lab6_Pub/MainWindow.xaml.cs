@@ -48,7 +48,7 @@ namespace Lab6_Pub
         int cleanGlasses;
         int dirtyGlasses;
         int timer;
-
+        double speed;
 
         int barPixelWidth = 106;
         int barChartMaxHeight = 100;
@@ -255,6 +255,26 @@ namespace Lab6_Pub
                 return;
             }
 
+            try
+            {
+                speed = Convert.ToDouble(Speed_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input, \n - Speed");
+                return;
+            }
+            if (speed < 0)
+            {
+                MessageBox.Show("Invalid input \n - Speed can't be less than 0");
+                return;
+            }
+            else if (speed == 0)
+            {
+                MessageBox.Show("Invalid input \n - Speed can't be 0");
+                return;
+            }
+
             bouncer = new Bouncer();
             waitress = new Waitress();
             bartender = new Bartender();
@@ -283,14 +303,16 @@ namespace Lab6_Pub
             });
 
             Task.Run(() => Start_Timer());
+            Task.Run(() => bouncer.Bouncer_Work(speed, Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
+            Task.Run(() => bartender.Bartender_Work(speed, Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
+            Task.Run(() => waitress.WaitressWork(speed, Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
             Task.Run(() => BarChart());
-            Task.Run(() => bouncer.Bouncer_Work(Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
-            Task.Run(() => bartender.Bartender_Work(Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
-            Task.Run(() => waitress.WaitressWork(Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
 
             Glasses_TextBox.IsEnabled = false;
             Chair_TextBox.IsEnabled = false;
             Timer_TextBox.IsEnabled = false;
+            Speed_TextBox.IsEnabled = false;
+
         }
 
         public event Action Change_Barqueue;
@@ -410,8 +432,10 @@ namespace Lab6_Pub
             patron.Glass = glass;
             chairQueue.Enqueue(patron);
             Change_ChairQueue();
-            Thread.Sleep(4000);
-            Task.Run(() => patron.Drink(Add_To_Listbox_Patrons, Is_First_In_ChairQueue, Take_Chair, Patron_Go_Home));
+            double manipulator = Math.Round((1000d * speed), 0);
+            int intManipulator = (int)manipulator;
+            Thread.Sleep(4 * intManipulator);
+            Task.Run(() => patron.Drink(speed, Add_To_Listbox_Patrons, Is_First_In_ChairQueue, Take_Chair, Patron_Go_Home));
         }
 
         public void Patron_Go_Home(Chair chair, Glass glass)
@@ -461,7 +485,7 @@ namespace Lab6_Pub
                     AverageTextBlock.Height = (average50sec / maxPatrons / 2) * barChartMaxHeight + 14;
                     AverageNumberTextBlock.Height = (average50sec / maxPatrons / 2) * barChartMaxHeight + 14;
                     AverageNumberTextBlock.Text = "" + average50sec;
-                    if (average50sec!=0)
+                    if (average50sec != 0)
                     {
                         AverageTextBlock.Visibility = System.Windows.Visibility.Visible;
                         AverageNumberTextBlock.Visibility = System.Windows.Visibility.Visible;
@@ -486,11 +510,13 @@ namespace Lab6_Pub
 
             }
             Close_Pub();
+            pubOpen = false;
         }
 
         private void Button_Close_Pub_Click(object sender, RoutedEventArgs e)
         {
             Close_Pub();
+            pubOpen = false;
         }
     }
 }

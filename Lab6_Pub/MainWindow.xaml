@@ -43,17 +43,17 @@
         <Label Content="Timer" HorizontalAlignment="Left" Margin="990,145,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Patrons" Content="Patrons:" HorizontalAlignment="Left" Margin="784,83,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Patron_Count" Content="0" HorizontalAlignment="Left" Margin="839,83,0,0" VerticalAlignment="Top"/>
-        
+
         <Rectangle x:Name="ChartBar1" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="883,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
         <Rectangle x:Name="ChartBar2" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="908,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
         <Rectangle x:Name="ChartBar3" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="933,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
         <Rectangle x:Name="ChartBar4" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="958,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
         <Rectangle x:Name="ChartBar5" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="983,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
-        
+
         <Border x:Name="AverageLine" BorderBrush="Pink" BorderThickness="0,1,0,0" HorizontalAlignment="Left" Height="49" Margin="884,0,0,10" VerticalAlignment="Bottom" Width="123" />
         <TextBlock x:Name="AverageTextBlock" Visibility="Hidden" HorizontalAlignment="Left" FontSize="11" Foreground="Pink" Margin="885,0,0,11" TextWrapping="Wrap" Text="Average" VerticalAlignment="Bottom" Height="63"/>
         <TextBlock x:Name="AverageNumberTextBlock" Visibility="Hidden" HorizontalAlignment="Right" FontSize="11" Foreground="Pink" Margin="0,0,102,11" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Height="63"/>
-        
+
         <Rectangle Fill="Transparent" HorizontalAlignment="Left" Height="110" Margin="883,0,0,10" Stroke="Black" StrokeThickness="1" VerticalAlignment="Bottom" Width="125" ToolTip="Updated every 5 seconds"/>
         <Label x:Name="ChartBar_Label1" Content="" FontSize="10" HorizontalAlignment="Left" Margin="883,0,0,10" VerticalAlignment="Bottom" Width="36"/>
         <Label x:Name="ChartBar_Label2" Content="" FontSize="10" HorizontalAlignment="Left" Margin="908,0,0,10" VerticalAlignment="Bottom" Width="36"/>
@@ -61,6 +61,9 @@
         <Label x:Name="ChartBar_Label4" Content="" FontSize="10" HorizontalAlignment="Left" Margin="958,0,0,10" VerticalAlignment="Bottom" Width="36"/>
         <Label x:Name="ChartBar_Label5" Content="" FontSize="10" HorizontalAlignment="Left" Margin="983,0,0,10" VerticalAlignment="Bottom" Width="36"/>
         <Label Content="Patrons in bar:" HorizontalAlignment="Left" Margin="883,251,0,0" VerticalAlignment="Top" ToolTip="Updated every 5 seconds"/>
+        
+        <TextBox x:Name="Speed_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,175,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="55"/>
+        <Label Content="Speed" HorizontalAlignment="Left" Margin="989,172,0,0" VerticalAlignment="Top"/>
 
 
     </Grid>
