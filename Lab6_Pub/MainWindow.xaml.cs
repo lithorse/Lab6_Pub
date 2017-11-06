@@ -48,6 +48,11 @@ namespace Lab6_Pub
         int cleanGlasses;
         int dirtyGlasses;
         int timer;
+        double speed;
+
+        int barPixelWidth = 106;
+        int barChartMaxHeight = 100;
+
 
         int patronsInBarQueue = 0;
         int patronsInChairQueue = 0;
@@ -60,7 +65,8 @@ namespace Lab6_Pub
                 patronsCounter = value;
                 Dispatcher.Invoke(() =>
                 {
-                    Label_Patrons_Count.Content = "" + patronsCounter;
+                    Label_Patron_Count.Content = "" + patronsCounter;
+                    Label_Available_Chairs_Count.Content = "" + availableChairs;
                 });
             }
         }
@@ -77,7 +83,6 @@ namespace Lab6_Pub
                 });
             }
         }
-
         public int PatronsInChairQueue
         {
             get { return patronsInChairQueue; }
@@ -108,11 +113,25 @@ namespace Lab6_Pub
                 availableChairs = value;
                 Dispatcher.Invoke(() =>
                 {
+                    if (availableChairs == Chairs)
+                    {
+                        Rectangle_AvailableChairs.Width = barPixelWidth;
+                    }
+                    else if (availableChairs == 0)
+                    {
+                        Rectangle_AvailableChairs.Width = 0;
+                    }
+                    else
+                    {
+                        Rectangle_AvailableChairs.Width = availableChairs * (barPixelWidth / Chairs);
+
+                    }
                     Label_Available_Chairs_Count.Content = "" + availableChairs;
                 });
             }
 
         }
+
 
         public int Glasses
         {
@@ -131,6 +150,19 @@ namespace Lab6_Pub
                 cleanGlasses = value;
                 Dispatcher.Invoke(() =>
                 {
+                    if (cleanGlasses == Glasses)
+                    {
+                        Rectangle_Clean_Glasses.Width = barPixelWidth;
+                    }
+                    else if (availableChairs == 0)
+                    {
+                        Rectangle_Clean_Glasses.Width = 0;
+                    }
+                    else
+                    {
+                        Rectangle_Clean_Glasses.Width = cleanGlasses * (barPixelWidth / Glasses);
+
+                    }
                     Label_Clean_Glasses_Count.Content = "" + cleanGlasses;
                 });
             }
@@ -168,6 +200,11 @@ namespace Lab6_Pub
 
         private void Button_Start_Click(object sender, RoutedEventArgs e)
         {
+            Dispatcher.Invoke(() =>
+            {
+                Rectangle_AvailableChairs_Back.Width = (((barPixelWidth)));
+                Rectangle_Clean_Glasses_Back.Width = (((barPixelWidth)));
+            });
             try
             {
                 Chairs = Int32.Parse(Chair_TextBox.Text);
@@ -218,6 +255,26 @@ namespace Lab6_Pub
                 return;
             }
 
+            try
+            {
+                speed = Convert.ToDouble(Speed_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input, \n - Speed");
+                return;
+            }
+            if (speed < 0)
+            {
+                MessageBox.Show("Invalid input \n - Speed can't be less than 0");
+                return;
+            }
+            else if (speed == 0)
+            {
+                MessageBox.Show("Invalid input \n - Speed can't be 0");
+                return;
+            }
+
             bouncer = new Bouncer();
             waitress = new Waitress();
             bartender = new Bartender();
@@ -246,13 +303,16 @@ namespace Lab6_Pub
             });
 
             Task.Run(() => Start_Timer());
-            Task.Run(() => bouncer.Bouncer_Work(Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
-            Task.Run(() => bartender.Bartender_Work(Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
-            Task.Run(() => waitress.WaitressWork(Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
+            Task.Run(() => bouncer.Bouncer_Work(speed, Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
+            Task.Run(() => bartender.Bartender_Work(speed, Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
+            Task.Run(() => waitress.WaitressWork(speed, Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
+            Task.Run(() => BarChart());
 
             Glasses_TextBox.IsEnabled = false;
             Chair_TextBox.IsEnabled = false;
             Timer_TextBox.IsEnabled = false;
+            Speed_TextBox.IsEnabled = false;
+
         }
 
         public event Action Change_Barqueue;
@@ -372,8 +432,10 @@ namespace Lab6_Pub
             patron.Glass = glass;
             chairQueue.Enqueue(patron);
             Change_ChairQueue();
-            Thread.Sleep(4000);
-            Task.Run(() => patron.Drink(Add_To_Listbox_Patrons, Is_First_In_ChairQueue, Take_Chair, Patron_Go_Home));
+            double manipulator = Math.Round((1000d * speed), 0);
+            int intManipulator = (int)manipulator;
+            Thread.Sleep(4 * intManipulator);
+            Task.Run(() => patron.Drink(speed, Add_To_Listbox_Patrons, Is_First_In_ChairQueue, Take_Chair, Patron_Go_Home));
         }
 
         public void Patron_Go_Home(Chair chair, Glass glass)
@@ -385,6 +447,60 @@ namespace Lab6_Pub
             PatronsCounter--;
         }
 
+        public void BarChart()
+        {
+            double barChartBar1 = 0;
+            double barChartBar2 = 0;
+            double barChartBar3 = 0;
+            double barChartBar4 = 0;
+            double barChartBar5 = 0;
+            double maxPatrons = 0;
+            double average50sec;
+
+            int startTime = timer;
+            while (PatronsCounter > 0 || pubOpen)
+            {
+                Thread.Sleep(5010);
+                if (PatronsCounter > maxPatrons)
+                {
+                    maxPatrons = PatronsCounter;
+                }
+
+                barChartBar1 = barChartBar2;
+                barChartBar2 = barChartBar3;
+                barChartBar3 = barChartBar4;
+                barChartBar4 = barChartBar5;
+                barChartBar5 = patronsCounter;
+
+                Dispatcher.Invoke(() =>
+                {
+                    ChartBar_Label1.Content = barChartBar1;
+                    ChartBar_Label2.Content = barChartBar2;
+                    ChartBar_Label3.Content = barChartBar3;
+                    ChartBar_Label4.Content = barChartBar4;
+                    ChartBar_Label5.Content = barChartBar5;
+
+                    average50sec = (barChartBar5 + barChartBar4 + barChartBar3 + barChartBar2 + barChartBar1) / 5;
+                    AverageLine.Height = (average50sec / maxPatrons / 2) * barChartMaxHeight;
+                    AverageTextBlock.Height = (average50sec / maxPatrons / 2) * barChartMaxHeight + 14;
+                    AverageNumberTextBlock.Height = (average50sec / maxPatrons / 2) * barChartMaxHeight + 14;
+                    AverageNumberTextBlock.Text = "" + average50sec;
+                    if (average50sec != 0)
+                    {
+                        AverageTextBlock.Visibility = System.Windows.Visibility.Visible;
+                        AverageNumberTextBlock.Visibility = System.Windows.Visibility.Visible;
+                    }
+
+                    ChartBar5.Height = (barChartBar5 / maxPatrons / 2) * barChartMaxHeight;
+                    ChartBar4.Height = (barChartBar4 / maxPatrons / 2) * barChartMaxHeight;
+                    ChartBar3.Height = (barChartBar3 / maxPatrons / 2) * barChartMaxHeight;
+                    ChartBar2.Height = (barChartBar2 / maxPatrons / 2) * barChartMaxHeight;
+                    ChartBar1.Height = (barChartBar1 / maxPatrons / 2) * barChartMaxHeight;
+                });
+            }
+
+        }
+
         public void Start_Timer()
         {
             while (timer > 0)
@@ -394,11 +510,13 @@ namespace Lab6_Pub
 
             }
             Close_Pub();
+            pubOpen = false;
         }
 
         private void Button_Close_Pub_Click(object sender, RoutedEventArgs e)
         {
             Close_Pub();
+            pubOpen = false;
         }
     }
 }

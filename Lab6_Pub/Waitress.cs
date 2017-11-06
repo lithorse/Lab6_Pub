@@ -12,6 +12,10 @@ namespace Lab6_Pub
         bool pubOpen = true;
         List<Glass> glassList = new List<Glass>();
 
+        int timeGetDirtyGlasses = 10;
+        int timeCleanDirtyGlasses = 15;
+
+
         public void On_Close()
         {
             pubOpen = false;
@@ -23,9 +27,12 @@ namespace Lab6_Pub
         public delegate void Place_Clean_Glass_Delegate(Glass glass);
         public delegate void Listbox_Add_Delegate(string str);
 
-        public void WaitressWork(Listbox_Add_Delegate listbox_Add_Delegate, Get_Dirty_Glass_Delegate get_Dirty_Glass_Delegate, Get_Patrons_Count_Delegate get_Patrons_Count_Delegate, Place_Clean_Glass_Delegate place_Clean_Glass_Delegate, Check_Dirty_Glasses_Delegate check_Dirty_Glasses_Delegate)
+        public void WaitressWork(double speed, Listbox_Add_Delegate listbox_Add_Delegate, Get_Dirty_Glass_Delegate get_Dirty_Glass_Delegate, Get_Patrons_Count_Delegate get_Patrons_Count_Delegate, Place_Clean_Glass_Delegate place_Clean_Glass_Delegate, Check_Dirty_Glasses_Delegate check_Dirty_Glasses_Delegate)
         {
+
             listbox_Add_Delegate("The waitress is awaiting dirty glasses");
+            double manipulator = Math.Round((1000d * speed), 0);
+            int intManipulator = (int)manipulator;
 
             while (pubOpen || get_Patrons_Count_Delegate())
             {
@@ -38,7 +45,7 @@ namespace Lab6_Pub
                     }
 
                     listbox_Add_Delegate("The waitress gets the dirty glasses");
-                    Thread.Sleep(10000);
+                    Thread.Sleep(timeGetDirtyGlasses * intManipulator);
 
                     while (!check_Dirty_Glasses_Delegate())
                     {
@@ -53,7 +60,7 @@ namespace Lab6_Pub
                     {
                         listbox_Add_Delegate($"The waitress cleans {glassList.Count()} glasses");
                     }
-                    Thread.Sleep(15000);
+                    Thread.Sleep(timeCleanDirtyGlasses * intManipulator);
 
                     if (glassList.Count() == 1)
                     {

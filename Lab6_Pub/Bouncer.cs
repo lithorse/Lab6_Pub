@@ -10,6 +10,11 @@ namespace Lab6_Pub
 {
     class Bouncer
     {
+        int minTime = 3;
+        int maxTime = 10;
+        int timePatronToBar = 1;
+
+
         Random Random = new Random();
         bool pubOpen = true;
         public delegate void Listbox_Add_Delegate(String str);
@@ -21,11 +26,14 @@ namespace Lab6_Pub
             pubOpen = false;
         }
 
-        public void Bouncer_Work(Listbox_Add_Delegate listbox_Add_Delegate, Add_Patron_To_Queue_Delegate add_Patron_To_Queue_Delegate, Change_Patrons_Counter_Delegate change_Patrons_Counter_Delegate)
+        public void Bouncer_Work(double speed, Listbox_Add_Delegate listbox_Add_Delegate, Add_Patron_To_Queue_Delegate add_Patron_To_Queue_Delegate, Change_Patrons_Counter_Delegate change_Patrons_Counter_Delegate)
         {
+            double manipulator = Math.Round((1000d * speed), 0);
+            int intManipulator = (int)manipulator;
+
             while (pubOpen)
             {
-                Thread.Sleep(Random.Next(3000, 10000));
+                Thread.Sleep(Random.Next(minTime * intManipulator, maxTime * intManipulator));
                 if (pubOpen)
                 {
                     Patron latestPatron = new Patron();
@@ -33,7 +41,7 @@ namespace Lab6_Pub
                     change_Patrons_Counter_Delegate(+1);
                     Task.Run(() =>
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep(timePatronToBar * intManipulator);
                         add_Patron_To_Queue_Delegate(latestPatron);
                     });
                 }

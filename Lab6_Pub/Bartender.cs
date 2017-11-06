@@ -16,6 +16,10 @@ namespace Lab6_Pub
         public delegate bool Check_Glasses_Delegate();
         public delegate Glass Take_Glass_Delegate();
 
+        int timeGetGlass = 3;
+        int timePourDrink = 1;
+
+
         public event Action<Glass> Drink_Served;
 
         public void On_Close()
@@ -23,8 +27,11 @@ namespace Lab6_Pub
             pubOpen = false;
         }
 
-        public void Bartender_Work(Listbox_Add_Delegate listbox_Add_Delegate, Check_Bar_Queue_Delegate check_Bar_Queue, Check_Glasses_Delegate check_Glasses_Delegate, Take_Glass_Delegate take_Glass_Delegate)
+        public void Bartender_Work(double speed, Listbox_Add_Delegate listbox_Add_Delegate, Check_Bar_Queue_Delegate check_Bar_Queue, Check_Glasses_Delegate check_Glasses_Delegate, Take_Glass_Delegate take_Glass_Delegate)
         {
+            double manipulator = Math.Round((1000d * speed), 0);
+            int intManipulator = (int)manipulator;
+
             listbox_Add_Delegate("The bartender waits for patrons");
             while (pubOpen || check_Bar_Queue())
             {
@@ -34,9 +41,9 @@ namespace Lab6_Pub
                 {
                     listbox_Add_Delegate("The bartender gets a glass");
                     glass = take_Glass_Delegate();
-                    Thread.Sleep(3000);
+                    Thread.Sleep(timeGetGlass * intManipulator);
                     listbox_Add_Delegate("The bartender pours a beer");
-                    Thread.Sleep(3000);
+                    Thread.Sleep(timePourDrink * intManipulator);
                     Drink_Served(glass);
                     glass = null;
                 }
