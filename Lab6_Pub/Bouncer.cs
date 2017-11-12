@@ -40,7 +40,7 @@ namespace Lab6_Pub
                 {
                     Task.Run(() =>
                     {
-                        Patron latestPatron = new Patron(rnd.Next(0, 52));   //perhaps move the list here -> less "magic numbers"
+                        Patron latestPatron = new Patron(rnd.Next(0, 52));   //perhaps move the list here -> less "magic numbers" 
                         listbox_Add_Delegate(latestPatron.Name + " enters the bar");
                         change_Patrons_Counter_Delegate(+1);
                         Thread.Sleep(timePatronToBar * intManipulator);
