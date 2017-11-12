@@ -64,6 +64,7 @@
         
         <TextBox x:Name="Speed_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,175,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="55"/>
         <Label Content="Speed" HorizontalAlignment="Left" Margin="989,172,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="CheckBoxCouplesNight" IsChecked="False" Content="Couples' Night" IsEnabled="True" HorizontalAlignment="Left" Margin="790,35,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked_CouplesNight"/>
 
 
     </Grid>

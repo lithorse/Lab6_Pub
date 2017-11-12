@@ -22,20 +22,21 @@ namespace Lab6_Pub
         public delegate bool FirstInQueue(Patron patron);
         public delegate Chair Take_Chair();
         public delegate void Go_Home(Chair chair, Glass glass);
+        public delegate bool Check_For_Available_Chair();
 
-        public Patron()
+        public Patron(int index)
         {
-            int index = Random.Next(0, NamesList.Count - 1);
+            //int index = Random.Next(0, NamesList.Count - 1);  //Left over from previous build check for robustness of current build before removal
             Name = NamesList[index];
         }
-        public void Drink(double speed, Add_To_Listbox_Patron add_To_Listbox_Patron, FirstInQueue firstInQueue, Take_Chair take_Chair, Go_Home go_Home)
+        public void Drink(double speed, Add_To_Listbox_Patron add_To_Listbox_Patron, FirstInQueue firstInQueue, Take_Chair take_Chair, Go_Home go_Home, Check_For_Available_Chair check_For_Available_Chair)
         {
             double manipulator = Math.Round((1000d * speed), 0);
             int intManipulator = (int)manipulator;
             while (true)
             {
                 Thread.Sleep(10);
-                if (firstInQueue(this))
+                if (firstInQueue(this) && check_For_Available_Chair())
                 {
                     add_To_Listbox_Patron($"{Name} sits down and drinks the beer");
                     Chair = take_Chair();
