@@ -44,6 +44,7 @@ namespace Lab6_Pub
         bool couplesNight;
         bool guestStayLonger;
         bool fastWaitress;
+        bool busScenario;
 
         int availableChairs;
         int chairs;
@@ -215,6 +216,10 @@ namespace Lab6_Pub
             {
                 fastWaitress = true;
             }
+            if (CheckBoxBusScenario.IsChecked == true)
+            {
+                busScenario = true;
+            }
             Dispatcher.Invoke(() =>
             {
                 Rectangle_AvailableChairs_Back.Width = (((barPixelWidth)));
@@ -222,6 +227,7 @@ namespace Lab6_Pub
                 CheckBoxCouplesNight.IsEnabled = false;
                 CheckBoxGuestsStayLonger.IsEnabled = false;
                 CheckBoxFastWaitress.IsEnabled = false;
+                CheckBoxBusScenario.IsEnabled = false;
                 Glasses_TextBox.IsEnabled = false;
                 Chair_TextBox.IsEnabled = false;
                 Timer_TextBox.IsEnabled = false;
@@ -325,7 +331,7 @@ namespace Lab6_Pub
             });
 
             Task.Run(() => Start_Timer());
-            Task.Run(() => bouncer.Bouncer_Work(speed, couplesNight, Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
+            Task.Run(() => bouncer.Bouncer_Work(speed, couplesNight, busScenario, Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
             Task.Run(() => bartender.Bartender_Work(speed, Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
             Task.Run(() => waitress.WaitressWork(speed, fastWaitress, Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
             Task.Run(() => BarChart());
@@ -542,6 +548,6 @@ namespace Lab6_Pub
             Close_Pub();
             pubOpen = false;
         }
-        
+
     }
 }

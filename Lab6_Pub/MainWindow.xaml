@@ -67,6 +67,7 @@
         <CheckBox x:Name="CheckBoxCouplesNight" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Couples' Night" ToolTip="The bartender admits two patrons at a time" IsEnabled="True" HorizontalAlignment="Left" Margin="790,35,0,0" VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxGuestsStayLonger" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Guests stay longer" ToolTip="Guests stay twice as long" IsEnabled="True" HorizontalAlignment="Left" Margin="893,35,0,0" VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxFastWaitress" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Fast waitress" ToolTip="Waitress works twice as fast" IsEnabled="True" HorizontalAlignment="Left" Margin="790,15,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxBusScenario" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Bus Scenario" ToolTip="Bounces lets patrons in half as fast \nbut after 20 seconds a bus arrives with 15 patrons at once" IsEnabled="True" HorizontalAlignment="Left" Margin="893,18,0,0" VerticalAlignment="Top" />
 
     </Grid>
 </Window>
