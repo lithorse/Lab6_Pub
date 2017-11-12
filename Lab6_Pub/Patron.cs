@@ -13,6 +13,7 @@ namespace Lab6_Pub
         public Chair Chair;
         public Glass Glass;
 
+        int slowGuests = 2;
         int minTime = 10;
         int maxTime = 20;
 
@@ -29,7 +30,7 @@ namespace Lab6_Pub
             //int index = Random.Next(0, NamesList.Count - 1);  //Left over from previous build check for robustness of current build before removal
             Name = NamesList[index];
         }
-        public void Drink(double speed, Add_To_Listbox_Patron add_To_Listbox_Patron, FirstInQueue firstInQueue, Take_Chair take_Chair, Go_Home go_Home, Check_For_Available_Chair check_For_Available_Chair)
+        public void Drink(bool guestStaylonger, double speed, Add_To_Listbox_Patron add_To_Listbox_Patron, FirstInQueue firstInQueue, Take_Chair take_Chair, Go_Home go_Home, Check_For_Available_Chair check_For_Available_Chair)
         {
             double manipulator = Math.Round((1000d * speed), 0);
             int intManipulator = (int)manipulator;
@@ -40,7 +41,14 @@ namespace Lab6_Pub
                 {
                     add_To_Listbox_Patron($"{Name} sits down and drinks the beer");
                     Chair = take_Chair();
-                    Thread.Sleep(Random.Next((minTime * intManipulator), (maxTime * intManipulator)));
+                    if (guestStaylonger)
+                    {
+                        Thread.Sleep(Random.Next((minTime * intManipulator*slowGuests), (maxTime * intManipulator*slowGuests)));
+                    }
+                    else
+                    {
+                        Thread.Sleep(Random.Next((minTime * intManipulator), (maxTime * intManipulator)));
+                    }
                     add_To_Listbox_Patron($"{Name} finishes the beer and leaves the bar");
                     go_Home(Chair, Glass);
                     return;
