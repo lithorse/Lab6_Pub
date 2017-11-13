@@ -41,6 +41,10 @@ namespace Lab6_Pub
         int counter;
         int patronsCounter;
         public bool pubOpen;
+        bool couplesNight;
+        bool guestStayLonger;
+        bool fastWaitress;
+        bool busScenario;
 
         int availableChairs;
         int chairs;
@@ -50,7 +54,7 @@ namespace Lab6_Pub
         int timer;
         double speed;
 
-        int barPixelWidth = 106;
+        double barPixelWidth = 106;
         int barChartMaxHeight = 100;
 
 
@@ -154,13 +158,13 @@ namespace Lab6_Pub
                     {
                         Rectangle_Clean_Glasses.Width = barPixelWidth;
                     }
-                    else if (availableChairs == 0)
+                    else if (cleanGlasses == 0)
                     {
                         Rectangle_Clean_Glasses.Width = 0;
                     }
                     else
                     {
-                        Rectangle_Clean_Glasses.Width = cleanGlasses * (barPixelWidth / Glasses);
+                        Rectangle_Clean_Glasses.Width = CleanGlassStackCount * (barPixelWidth / Glasses);
 
                     }
                     Label_Clean_Glasses_Count.Content = "" + cleanGlasses;
@@ -200,10 +204,34 @@ namespace Lab6_Pub
 
         private void Button_Start_Click(object sender, RoutedEventArgs e)
         {
+            if (CheckBoxCouplesNight.IsChecked == true)
+            {
+                couplesNight = true;
+            }
+            if (CheckBoxGuestsStayLonger.IsChecked == true)
+            {
+                guestStayLonger = true;
+            }
+            if (CheckBoxFastWaitress.IsChecked == true)
+            {
+                fastWaitress = true;
+            }
+            if (CheckBoxBusScenario.IsChecked == true)
+            {
+                busScenario = true;
+            }
             Dispatcher.Invoke(() =>
             {
                 Rectangle_AvailableChairs_Back.Width = (((barPixelWidth)));
                 Rectangle_Clean_Glasses_Back.Width = (((barPixelWidth)));
+                CheckBoxCouplesNight.IsEnabled = false;
+                CheckBoxGuestsStayLonger.IsEnabled = false;
+                CheckBoxFastWaitress.IsEnabled = false;
+                CheckBoxBusScenario.IsEnabled = false;
+                Glasses_TextBox.IsEnabled = false;
+                Chair_TextBox.IsEnabled = false;
+                Timer_TextBox.IsEnabled = false;
+                Speed_TextBox.IsEnabled = false;
             });
             try
             {
@@ -303,16 +331,10 @@ namespace Lab6_Pub
             });
 
             Task.Run(() => Start_Timer());
-            Task.Run(() => bouncer.Bouncer_Work(speed, Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
+            Task.Run(() => bouncer.Bouncer_Work(speed, couplesNight, busScenario, Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
             Task.Run(() => bartender.Bartender_Work(speed, Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
-            Task.Run(() => waitress.WaitressWork(speed, Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
+            Task.Run(() => waitress.WaitressWork(speed, fastWaitress, Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
             Task.Run(() => BarChart());
-
-            Glasses_TextBox.IsEnabled = false;
-            Chair_TextBox.IsEnabled = false;
-            Timer_TextBox.IsEnabled = false;
-            Speed_TextBox.IsEnabled = false;
-
         }
 
         public event Action Change_Barqueue;
@@ -426,16 +448,24 @@ namespace Lab6_Pub
         public void On_Drink_Served(Glass glass)
         {
             Dispatcher.Invoke(() => Listbox_Patrons.Items.Insert(0, $"{counter} {barQueue.First().Name} grabs the beer and looks for a chair"));
-            counter++;
-            barQueue.TryDequeue(out Patron patron);
-            Change_Barqueue();
-            patron.Glass = glass;
-            chairQueue.Enqueue(patron);
-            Change_ChairQueue();
-            double manipulator = Math.Round((1000d * speed), 0);
-            int intManipulator = (int)manipulator;
-            Thread.Sleep(4 * intManipulator);
-            Task.Run(() => patron.Drink(speed, Add_To_Listbox_Patrons, Is_First_In_ChairQueue, Take_Chair, Patron_Go_Home));
+            Task.Run(() =>
+            {
+                counter++;
+                barQueue.TryDequeue(out Patron patron);
+                Change_Barqueue();
+                patron.Glass = glass;
+                chairQueue.Enqueue(patron);
+                Change_ChairQueue();
+                double manipulator = Math.Round((1000d * speed), 0);
+                int intManipulator = (int)manipulator;
+                Thread.Sleep(4 * intManipulator);
+                patron.Drink(guestStayLonger, speed, Add_To_Listbox_Patrons, Is_First_In_ChairQueue, Take_Chair, Patron_Go_Home, CheckForAvailableChairs);
+            });
+        }
+
+        public bool CheckForAvailableChairs()
+        {
+            return chairStack.Count != 0;
         }
 
         public void Patron_Go_Home(Chair chair, Glass glass)
@@ -518,5 +548,6 @@ namespace Lab6_Pub
             Close_Pub();
             pubOpen = false;
         }
+
     }
 }

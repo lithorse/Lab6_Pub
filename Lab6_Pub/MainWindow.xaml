@@ -25,16 +25,16 @@
         <Button x:Name="Button_Start" Content="Start" HorizontalAlignment="Left" Margin="10,324,0,0" VerticalAlignment="Top" Width="770" Height="69" Click="Button_Start_Click"/>
         <Button x:Name="Button_Close_Pub" Content="Close Pub" HorizontalAlignment="Left" Margin="785,324,0,0" VerticalAlignment="Top" Width="75" Click="Button_Close_Pub_Click" Height="69"/>
         <Label Content="Stats:" HorizontalAlignment="Left" Margin="785,52,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="Label_Glasses" Content="Clean glasses:" HorizontalAlignment="Left" Margin="785,106,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Glasses" Content="Clean Glasses:" HorizontalAlignment="Left" Margin="785,106,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Clean_Glasses_Count" Content="0" HorizontalAlignment="Left" Margin="867,106,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_BarQueue" Content="Bar queue:" HorizontalAlignment="Left" Margin="783,210,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_BarQueue" Content="Bar Queue:" HorizontalAlignment="Left" Margin="783,210,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Patron_BarQueue_Count" Content="0" HorizontalAlignment="Left" Margin="849,210,0,0" VerticalAlignment="Top"/>
-        <Label Content="Chair queue:" HorizontalAlignment="Left" Margin="785,184,0,0" VerticalAlignment="Top"/>
+        <Label Content="Chair Queue:" HorizontalAlignment="Left" Margin="785,184,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Patron_ChairQueue_Count" Content="0" HorizontalAlignment="Left" Margin="861,184,0,0" VerticalAlignment="Top"/>
         <TextBox Text="9" Name="Chair_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" />
-        <Label Content="Available chairs:" HorizontalAlignment="Left" Margin="785,158,0,0" VerticalAlignment="Top"/>
+        <Label Content="Available Chairs:" HorizontalAlignment="Left" Margin="785,158,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Available_Chairs_Count" Content="0" HorizontalAlignment="Left" Margin="880,158,0,0" VerticalAlignment="Top"/>
-        <Label Content="Dirty glasses:" HorizontalAlignment="Left" Margin="785,132,0,0" VerticalAlignment="Top"/>
+        <Label Content="Dirty Glasses:" HorizontalAlignment="Left" Margin="785,132,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Dirty_Glasses_Count" Content="0" HorizontalAlignment="Left" Margin="863,132,0,0" VerticalAlignment="Top"/>
         <Label Content="Chairs" HorizontalAlignment="Left" Margin="985,112,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="Glasses_TextBox" Text="8" HorizontalAlignment="Left" Height="23" Margin="1033,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55"/>
@@ -64,7 +64,11 @@
         
         <TextBox x:Name="Speed_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,175,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="55"/>
         <Label Content="Speed" HorizontalAlignment="Left" Margin="989,172,0,0" VerticalAlignment="Top"/>
-
+        
+        <CheckBox x:Name="CheckBoxCouplesNight" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Couples' Night" ToolTip="The bartender admits two patrons at a time" IsEnabled="True" HorizontalAlignment="Left" Margin="790,35,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxGuestsStayLonger" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Guests Stay Longer" ToolTip="Guests stay twice as long" IsEnabled="True" HorizontalAlignment="Left" Margin="893,35,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxFastWaitress" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Fast waitress" ToolTip="Waitress works twice as fast" IsEnabled="True" HorizontalAlignment="Left" Margin="790,15,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxBusScenario" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Bus Scenario" ToolTip="Bounces lets patrons in half as fast \nbut after 20 seconds a bus arrives with 15 patrons at once" IsEnabled="True" HorizontalAlignment="Left" Margin="893,18,0,0" VerticalAlignment="Top" />
 
     </Grid>
 </Window>

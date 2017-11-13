@@ -27,11 +27,18 @@ namespace Lab6_Pub
         public delegate void Place_Clean_Glass_Delegate(Glass glass);
         public delegate void Listbox_Add_Delegate(string str);
 
-        public void WaitressWork(double speed, Listbox_Add_Delegate listbox_Add_Delegate, Get_Dirty_Glass_Delegate get_Dirty_Glass_Delegate, Get_Patrons_Count_Delegate get_Patrons_Count_Delegate, Place_Clean_Glass_Delegate place_Clean_Glass_Delegate, Check_Dirty_Glasses_Delegate check_Dirty_Glasses_Delegate)
+        public void WaitressWork(double speed, bool fastWaitress, Listbox_Add_Delegate listbox_Add_Delegate, Get_Dirty_Glass_Delegate get_Dirty_Glass_Delegate, Get_Patrons_Count_Delegate get_Patrons_Count_Delegate, Place_Clean_Glass_Delegate place_Clean_Glass_Delegate, Check_Dirty_Glasses_Delegate check_Dirty_Glasses_Delegate)
         {
-
+            double manipulator;
             listbox_Add_Delegate("The waitress is awaiting dirty glasses");
-            double manipulator = Math.Round((1000d * speed), 0);
+            if (fastWaitress)
+            {
+                manipulator = Math.Round((1000d * speed * 0.5), 0);
+            }
+            else
+            {
+                manipulator = Math.Round((1000d * speed), 0);
+            }
             int intManipulator = (int)manipulator;
 
             while (pubOpen || get_Patrons_Count_Delegate())
