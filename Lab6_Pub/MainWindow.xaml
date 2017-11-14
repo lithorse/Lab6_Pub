@@ -11,64 +11,64 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Rectangle x:Name="Rectangle_Clean_Glasses_Back" Fill="LightPink" StrokeThickness="0" HorizontalAlignment="Left" Height="20" Margin="790,109,0,0" Stroke="Black" VerticalAlignment="Top" Width="0"/>
-        <Rectangle x:Name="Rectangle_Clean_Glasses" Fill="AliceBlue" StrokeThickness="0" HorizontalAlignment="Left" Height="20" Margin="790,109,0,0" Stroke="Black" VerticalAlignment="Top" Width="0"/>
-        <Rectangle x:Name="Rectangle_AvailableChairs_Back" Fill="LightPink" StrokeThickness="0" HorizontalAlignment="Left" Height="20" Margin="790,161,0,0" Stroke="Black" VerticalAlignment="Top" Width="0"/>
-        <Rectangle x:Name="Rectangle_AvailableChairs" Fill="AliceBlue" StrokeThickness="0" HorizontalAlignment="Left" Height="20" Margin="790,161,0,0" Stroke="Black" VerticalAlignment="Top" Width="0"/>
-        <ListBox x:Name="Listbox_Bartender" HorizontalAlignment="Left" Height="236" Margin="10,83,0,0" VerticalAlignment="Top" Width="250"/>
-        <ListBox x:Name="Listbox_Waitress" HorizontalAlignment="Left" Height="236" Margin="270,83,0,0" VerticalAlignment="Top" Width="250"/>
-        <ListBox x:Name="Listbox_Patrons" HorizontalAlignment="Left" Height="236" Margin="530,83,0,0" VerticalAlignment="Top" Width="250"/>
+        <Rectangle x:Name="Rectangle_Clean_Glasses_Back" Fill="LightPink" StrokeThickness="0" HorizontalAlignment="Left" Height="20" Margin="790,129,0,0" Stroke="Black" VerticalAlignment="Top" Width="0"/>
+        <Rectangle x:Name="Rectangle_Clean_Glasses" Fill="AliceBlue" StrokeThickness="0" HorizontalAlignment="Left" Height="20" Margin="790,129,0,0" Stroke="Black" VerticalAlignment="Top" Width="0"/>
+        <Rectangle x:Name="Rectangle_AvailableChairs_Back" Fill="LightPink" StrokeThickness="0" HorizontalAlignment="Left" Height="20" Margin="790,181,0,0" Stroke="Black" VerticalAlignment="Top" Width="0"/>
+        <Rectangle x:Name="Rectangle_AvailableChairs" Fill="AliceBlue" StrokeThickness="0" HorizontalAlignment="Left" Height="20" Margin="790,181,0,0" Stroke="Black" VerticalAlignment="Top" Width="0"/>
+        <ListBox x:Name="Listbox_Bartender" HorizontalAlignment="Left" Height="302" Margin="10,83,0,0" VerticalAlignment="Top" Width="250"/>
+        <ListBox x:Name="Listbox_Waitress" HorizontalAlignment="Left" Height="302" Margin="270,83,0,0" VerticalAlignment="Top" Width="250"/>
+        <ListBox x:Name="Listbox_Patrons" HorizontalAlignment="Left" Height="302" Margin="530,83,0,0" VerticalAlignment="Top" Width="250"/>
         <Label Content="Bartender" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top"/>
         <Label Content="Waitress" HorizontalAlignment="Left" Margin="270,52,0,0" VerticalAlignment="Top"/>
         <Label Content="Patrons" HorizontalAlignment="Left" Margin="540,52,0,0" VerticalAlignment="Top"/>
         <Label Content="Lab 6 - Pub" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Button x:Name="Button_Start" Content="Start" HorizontalAlignment="Left" Margin="10,324,0,0" VerticalAlignment="Top" Width="770" Height="69" Click="Button_Start_Click"/>
-        <Button x:Name="Button_Close_Pub" Content="Close Pub" HorizontalAlignment="Left" Margin="785,324,0,0" VerticalAlignment="Top" Width="75" Click="Button_Close_Pub_Click" Height="69" IsEnabled="False"/>
-        <Label Content="Stats:" HorizontalAlignment="Left" Margin="785,52,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label x:Name="Label_Glasses" Content="Clean Glasses:" HorizontalAlignment="Left" Margin="785,106,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_Clean_Glasses_Count" Content="0" HorizontalAlignment="Left" Margin="867,106,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_BarQueue" Content="Bar Queue:" HorizontalAlignment="Left" Margin="783,210,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_Patron_BarQueue_Count" Content="0" HorizontalAlignment="Left" Margin="849,210,0,0" VerticalAlignment="Top"/>
-        <Label Content="Chair Queue:" HorizontalAlignment="Left" Margin="785,184,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_Patron_ChairQueue_Count" Content="0" HorizontalAlignment="Left" Margin="861,184,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Button_Start" Content="Start" HorizontalAlignment="Left" Margin="928,362,0,0" VerticalAlignment="Top" Width="75" Height="23" Click="Button_Start_Click"/>
+        <Button x:Name="Button_Close_Pub" Content="Close Pub" HorizontalAlignment="Left" Margin="1013,362,0,0" VerticalAlignment="Top" Width="75" Click="Button_Close_Pub_Click" Height="23" IsEnabled="False"/>
+        <Label Content="Stats:" HorizontalAlignment="Left" Margin="790,83,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label x:Name="Label_Glasses" Content="Clean Glasses:" HorizontalAlignment="Left" Margin="790,126,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Clean_Glasses_Count" Content="0" HorizontalAlignment="Left" Margin="870,126,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_BarQueue" Content="Bar Queue:" HorizontalAlignment="Left" Margin="790,228,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Patron_BarQueue_Count" Content="0" HorizontalAlignment="Left" Margin="854,228,0,0" VerticalAlignment="Top"/>
+        <Label Content="Chair Queue:" HorizontalAlignment="Left" Margin="790,204,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Patron_ChairQueue_Count" Content="0" HorizontalAlignment="Left" Margin="864,204,0,0" VerticalAlignment="Top"/>
         <TextBox Text="9" Name="Chair_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" />
-        <Label Content="Available Chairs:" HorizontalAlignment="Left" Margin="785,158,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_Available_Chairs_Count" Content="0" HorizontalAlignment="Left" Margin="880,158,0,0" VerticalAlignment="Top"/>
-        <Label Content="Dirty Glasses:" HorizontalAlignment="Left" Margin="785,132,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_Dirty_Glasses_Count" Content="0" HorizontalAlignment="Left" Margin="863,132,0,0" VerticalAlignment="Top"/>
+        <Label Content="Available Chairs:" HorizontalAlignment="Left" Margin="790,178,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Available_Chairs_Count" Content="0" HorizontalAlignment="Left" Margin="880,178,0,0" VerticalAlignment="Top"/>
+        <Label Content="Dirty Glasses:" HorizontalAlignment="Left" Margin="790,152,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Dirty_Glasses_Count" Content="0" HorizontalAlignment="Left" Margin="865,152,0,0" VerticalAlignment="Top"/>
         <Label Content="Chairs" HorizontalAlignment="Left" Margin="985,112,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="Glasses_TextBox" Text="8" HorizontalAlignment="Left" Height="23" Margin="1033,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55"/>
         <Label Content="Glasses" HorizontalAlignment="Left" Margin="984,83,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="Timer_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,147,0,0" TextWrapping="Wrap" Text="120" VerticalAlignment="Top" Width="55"/>
         <Label Content="Timer" HorizontalAlignment="Left" Margin="990,145,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_Patrons" Content="Patrons:" HorizontalAlignment="Left" Margin="784,83,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Label_Patron_Count" Content="0" HorizontalAlignment="Left" Margin="839,83,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Patrons" Content="Patrons:" HorizontalAlignment="Left" Margin="789,103,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label_Patron_Count" Content="0" HorizontalAlignment="Left" Margin="836,103,0,0" VerticalAlignment="Top"/>
 
-        <Rectangle x:Name="ChartBar1" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="883,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
-        <Rectangle x:Name="ChartBar2" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="908,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
-        <Rectangle x:Name="ChartBar3" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="933,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
-        <Rectangle x:Name="ChartBar4" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="958,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
-        <Rectangle x:Name="ChartBar5" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="983,0,0,10" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
+        <Rectangle x:Name="ChartBar1" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="792,0,0,11" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
+        <Rectangle x:Name="ChartBar2" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="817,0,0,11" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
+        <Rectangle x:Name="ChartBar3" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="842,0,0,11" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
+        <Rectangle x:Name="ChartBar4" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="867,0,0,11" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
+        <Rectangle x:Name="ChartBar5" Fill="AliceBlue" HorizontalAlignment="Left" Height="49" Margin="892,0,0,11" Stroke="Black" StrokeThickness="0" VerticalAlignment="Bottom" Width="25"/>
 
-        <Border x:Name="AverageLine" BorderBrush="Pink" BorderThickness="0,1,0,0" HorizontalAlignment="Left" Height="49" Margin="884,0,0,10" VerticalAlignment="Bottom" Width="123" />
-        <TextBlock x:Name="AverageTextBlock" Visibility="Hidden" HorizontalAlignment="Left" FontSize="11" Foreground="Pink" Margin="885,0,0,11" TextWrapping="Wrap" Text="Average" VerticalAlignment="Bottom" Height="63"/>
-        <TextBlock x:Name="AverageNumberTextBlock" Visibility="Hidden" HorizontalAlignment="Right" FontSize="11" Foreground="Pink" Margin="0,0,102,11" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Height="63"/>
+        <Border x:Name="AverageLine" BorderBrush="Pink" BorderThickness="0,1,0,0" HorizontalAlignment="Left" Height="49" Margin="793, 0,0,10" VerticalAlignment="Bottom" Width="123" />
+        <TextBlock x:Name="AverageTextBlock" Visibility="Visible" HorizontalAlignment="Left" FontSize="11" Foreground="Pink" Margin="794,0,0,11" TextWrapping="Wrap" Text="Average" VerticalAlignment="Bottom" Height="63"/>
+        <TextBlock x:Name="AverageNumberTextBlock" Visibility="Visible" HorizontalAlignment="Right" FontSize="11" Foreground="Pink" Margin="0,0,193,11" TextWrapping="Wrap" Text="0" VerticalAlignment="Bottom" Height="63"/>
 
-        <Rectangle Fill="Transparent" HorizontalAlignment="Left" Height="110" Margin="883,0,0,10" Stroke="Black" StrokeThickness="1" VerticalAlignment="Bottom" Width="125" ToolTip="Updated every 5 seconds"/>
-        <Label x:Name="ChartBar_Label1" Content="" FontSize="10" HorizontalAlignment="Left" Margin="883,0,0,10" VerticalAlignment="Bottom" Width="36"/>
-        <Label x:Name="ChartBar_Label2" Content="" FontSize="10" HorizontalAlignment="Left" Margin="908,0,0,10" VerticalAlignment="Bottom" Width="36"/>
-        <Label x:Name="ChartBar_Label3" Content="" FontSize="10" HorizontalAlignment="Left" Margin="933,0,0,10" VerticalAlignment="Bottom" Width="36"/>
-        <Label x:Name="ChartBar_Label4" Content="" FontSize="10" HorizontalAlignment="Left" Margin="958,0,0,10" VerticalAlignment="Bottom" Width="36"/>
-        <Label x:Name="ChartBar_Label5" Content="" FontSize="10" HorizontalAlignment="Left" Margin="983,0,0,10" VerticalAlignment="Bottom" Width="36"/>
-        <Label Content="Patrons in bar:" HorizontalAlignment="Left" Margin="883,251,0,0" VerticalAlignment="Top" ToolTip="Updated every 5 seconds"/>
-        
+        <Rectangle Fill="Transparent" HorizontalAlignment="Left" Height="110" Margin="792,0,0,9" Stroke="Black" StrokeThickness="1" VerticalAlignment="Bottom" Width="125" ToolTip="Updated every 5 seconds"/>
+        <Label x:Name="ChartBar_Label1" Content="" FontSize="10" HorizontalAlignment="Left" Margin="792,0,0,11" VerticalAlignment="Bottom" Width="36"/>
+        <Label x:Name="ChartBar_Label2" Content="" FontSize="10" HorizontalAlignment="Left" Margin="817,0,0,11" VerticalAlignment="Bottom" Width="36"/>
+        <Label x:Name="ChartBar_Label3" Content="" FontSize="10" HorizontalAlignment="Left" Margin="842,0,0,11" VerticalAlignment="Bottom" Width="36"/>
+        <Label x:Name="ChartBar_Label4" Content="" FontSize="10" HorizontalAlignment="Left" Margin="867,0,0,11" VerticalAlignment="Bottom" Width="36"/>
+        <Label x:Name="ChartBar_Label5" Content="" FontSize="10" HorizontalAlignment="Left" Margin="892,0,0,11" VerticalAlignment="Bottom" Width="36"/>
+        <Label Content="Patrons in bar:" FontWeight="Bold" HorizontalAlignment="Left" Margin="786,252,0,0" VerticalAlignment="Top" ToolTip="Updated every 5 seconds"/>
+
         <TextBox x:Name="Speed_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,175,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="55"/>
         <Label Content="Speed" HorizontalAlignment="Left" Margin="989,172,0,0" VerticalAlignment="Top"/>
-        
-        <CheckBox x:Name="CheckBoxCouplesNight" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Couples' Night" ToolTip="The bartender admits two patrons at a time" IsEnabled="True" HorizontalAlignment="Left" Margin="790,35,0,0" VerticalAlignment="Top" />
-        <CheckBox x:Name="CheckBoxGuestsStayLonger" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Guests Stay Longer" ToolTip="Guests stay twice as long" IsEnabled="True" HorizontalAlignment="Left" Margin="893,35,0,0" VerticalAlignment="Top" />
-        <CheckBox x:Name="CheckBoxFastWaitress" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Fast waitress" ToolTip="Waitress works twice as fast" IsEnabled="True" HorizontalAlignment="Left" Margin="790,15,0,0" VerticalAlignment="Top" />
-        <CheckBox x:Name="CheckBoxBusScenario" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Bus Scenario" ToolTip="Bounces lets patrons in half as fast \nbut after 20 seconds a bus arrives with 15 patrons at once" IsEnabled="True" HorizontalAlignment="Left" Margin="893,18,0,0" VerticalAlignment="Top" />
+
+        <CheckBox x:Name="CheckBoxCouplesNight" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Couples' Night" ToolTip="The bartender admits two patrons at a time" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="990,223,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxGuestsStayLonger" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Guests Stay Longer" ToolTip="Guests stay twice as long" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="967,263,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxFastWaitress" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Fast Waitress" ToolTip="Waitress works twice as fast" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="1000,203,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxBusScenario" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Bus Scenario" ToolTip="Bounces lets patrons in half as fast but after 20 seconds a bus arrives with 15 patrons at once" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="1001,243,0,0" VerticalAlignment="Top" />
 
     </Grid>
 </Window>
