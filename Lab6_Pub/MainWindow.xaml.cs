@@ -33,9 +33,9 @@ namespace Lab6_Pub
         }
         ConcurrentQueue<Patron> barQueue = new ConcurrentQueue<Patron>();
         ConcurrentQueue<Patron> chairQueue = new ConcurrentQueue<Patron>();
-        ConcurrentStack<Chair> chairStack = new ConcurrentStack<Chair>();
-        ConcurrentQueue<Glass> dirtyGlassQueue = new ConcurrentQueue<Glass>();
-        ConcurrentStack<Glass> cleanGlassStack = new ConcurrentStack<Glass>();
+        ConcurrentStack<Chair> chairStack;
+        ConcurrentQueue<Glass> dirtyGlassQueue;
+        ConcurrentStack<Glass> cleanGlassStack;
 
         Random random = new Random();
         int counter;
@@ -204,6 +204,71 @@ namespace Lab6_Pub
 
         private void Button_Start_Click(object sender, RoutedEventArgs e)
         {
+            Task.Yield();
+            try
+            {
+                Chairs = Int32.Parse(Chair_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input \n\nEnter a valid number of chairs");
+                return;
+            }
+            if (Chairs < 1)
+            {
+                MessageBox.Show("Invalid input \n\nNeed atleast one chair");
+                return;
+            }
+
+            try
+            {
+                Glasses = Int32.Parse(Glasses_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input, \n\nEnter a valid number of glasses");
+                return;
+            }
+            if (Glasses < 1)
+            {
+                MessageBox.Show("Invalid input \n\nNeed atleast one glass");
+                return;
+            }
+
+            try
+            {
+                Timer = Int32.Parse(Timer_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input, \n\nEnter a valid number as the timer");
+                return;
+            }
+            if (Timer <= 0)
+            {
+                MessageBox.Show("Invalid input \n\nTimer can't be less than or equal to 0");
+                return;
+            }
+
+            try
+            {
+                speed = Convert.ToDouble(Speed_TextBox.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Invalid input, \n\nEnter a valid number for speed");
+                return;
+            }
+            if (speed <= 0)
+            {
+                MessageBox.Show("Invalid input \n\nSpeed can't be less than or equal to 0");
+                return;
+            }
+
+            chairStack = new ConcurrentStack<Chair>();
+            cleanGlassStack = new ConcurrentStack<Glass>();
+            dirtyGlassQueue = new ConcurrentQueue<Glass>();
+
             if (CheckBoxCouplesNight.IsChecked == true)
             {
                 couplesNight = true;
@@ -220,10 +285,12 @@ namespace Lab6_Pub
             {
                 busScenario = true;
             }
+
             Dispatcher.Invoke(() =>
             {
                 Rectangle_AvailableChairs_Back.Width = (((barPixelWidth)));
                 Rectangle_Clean_Glasses_Back.Width = (((barPixelWidth)));
+
                 CheckBoxCouplesNight.IsEnabled = false;
                 CheckBoxGuestsStayLonger.IsEnabled = false;
                 CheckBoxFastWaitress.IsEnabled = false;
@@ -232,76 +299,13 @@ namespace Lab6_Pub
                 Chair_TextBox.IsEnabled = false;
                 Timer_TextBox.IsEnabled = false;
                 Speed_TextBox.IsEnabled = false;
+                Button_Start.IsEnabled = false;
+                Button_Close_Pub.IsEnabled = true;
+
+                Listbox_Bartender.Items.Clear();
+                Listbox_Waitress.Items.Clear();
+                Listbox_Patrons.Items.Clear();
             });
-            try
-            {
-                Chairs = Int32.Parse(Chair_TextBox.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Invalid input, \n - Chairs");
-                return;
-            }
-            if (Chairs < 1)
-            {
-                MessageBox.Show("Invalid input \n - Need atleast one chair");
-                return;
-            }
-
-            try
-            {
-                Glasses = Int32.Parse(Glasses_TextBox.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Invalid input, \n - Glasses");
-                return;
-            }
-            if (Glasses < 1)
-            {
-                MessageBox.Show("Invalid input \n - Need atleast one glass");
-                return;
-            }
-
-            try
-            {
-                Timer = Int32.Parse(Timer_TextBox.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Invalid input, \n - Timer");
-                return;
-            }
-            if (Timer < 0)
-            {
-                MessageBox.Show("Invalid input \n - Timer can't be less than 0");
-                return;
-            }
-            else if (Timer == 0)
-            {
-                MessageBox.Show("Invalid input \n - Timer can't be 0");
-                return;
-            }
-
-            try
-            {
-                speed = Convert.ToDouble(Speed_TextBox.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Invalid input, \n - Speed");
-                return;
-            }
-            if (speed < 0)
-            {
-                MessageBox.Show("Invalid input \n - Speed can't be less than 0");
-                return;
-            }
-            else if (speed == 0)
-            {
-                MessageBox.Show("Invalid input \n - Speed can't be 0");
-                return;
-            }
 
             bouncer = new Bouncer();
             waitress = new Waitress();
@@ -311,6 +315,7 @@ namespace Lab6_Pub
             Close_Pub += bouncer.On_Close;
             Close_Pub += bartender.On_Close;
             Close_Pub += waitress.On_Close;
+            Close_Pub += On_Close_Pub;
 
             counter = 1;
             pubOpen = true;
@@ -328,11 +333,12 @@ namespace Lab6_Pub
                 };
                 CleanGlassStackCount = cleanGlassStack.Count();
                 ChairStackCount = chairStack.Count();
+                DirtyGlassQueueCount = 0;
             });
 
             Task.Run(() => Start_Timer());
             Task.Run(() => bouncer.Bouncer_Work(speed, couplesNight, busScenario, Add_To_Listbox_Patrons, Add_Patron_To_BarQueue, Change_Patrons_Counter));
-            Task.Run(() => bartender.Bartender_Work(speed, Add_To_Listbox_Bartender, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
+            Task.Run(() => bartender.Bartender_Work(speed, Add_To_Listbox_Bartender, Get_Patrons_Count, Check_Bar_Queue, Check_Clean_Glasses, Take_Clean_Glass));
             Task.Run(() => waitress.WaitressWork(speed, fastWaitress, Add_To_Listbox_Waitress, Take_Dirty_Glass, Get_Patrons_Count, Place_Clean_Glass, Check_Dirty_Glasses));
             Task.Run(() => BarChart());
         }
@@ -440,6 +446,10 @@ namespace Lab6_Pub
         {
             chairQueue.TryDequeue(out Patron patron);
             Change_ChairQueue();
+            while (chairStack.Count() == 0)
+            {
+                Thread.Sleep(10);
+            }
             chairStack.TryPop(out Chair chair);
             ChairStackCount = chairStack.Count();
             return chair;
@@ -533,21 +543,51 @@ namespace Lab6_Pub
 
         public void Start_Timer()
         {
-            while (timer > 0)
+            while (timer > 0 && pubOpen == true)
             {
                 Thread.Sleep(1000);
                 Timer--;
 
             }
+            if (pubOpen == true)
+            {
+            }
             Close_Pub();
-            pubOpen = false;
+            Timer = 120;
         }
 
         private void Button_Close_Pub_Click(object sender, RoutedEventArgs e)
         {
             Close_Pub();
-            pubOpen = false;
         }
 
+        private void On_Close_Pub()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                pubOpen = false;
+                Button_Close_Pub.IsEnabled = false;
+                CheckBoxCouplesNight.IsEnabled = true;
+                CheckBoxGuestsStayLonger.IsEnabled = true;
+                CheckBoxFastWaitress.IsEnabled = true;
+                CheckBoxBusScenario.IsEnabled = true;
+                Glasses_TextBox.IsEnabled = true;
+                Chair_TextBox.IsEnabled = true;
+                Timer_TextBox.IsEnabled = true;
+                Speed_TextBox.IsEnabled = true;
+            });
+            Task.Run(() =>
+            {
+                while (!bartender.isHome || !waitress.isHome || !bouncer.isHome)
+                {
+                    Thread.Sleep(10);
+                }
+                Dispatcher.Invoke(() =>
+                {
+                    Button_Start.IsEnabled = true;
+                    Button_Start.Content = "Restart";
+                });
+            });
+        }
     }
 }

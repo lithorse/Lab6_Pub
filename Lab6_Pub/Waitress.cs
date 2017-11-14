@@ -10,6 +10,7 @@ namespace Lab6_Pub
     class Waitress
     {
         bool pubOpen = true;
+        public bool isHome = false;
         List<Glass> glassList = new List<Glass>();
 
         int timeGetDirtyGlasses = 10;
@@ -86,7 +87,7 @@ namespace Lab6_Pub
                     glassList.Clear();
                 }
             }
-
+            isHome = true;
             listbox_Add_Delegate("The waitress goes home");
         }
     }
