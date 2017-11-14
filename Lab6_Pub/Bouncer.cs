@@ -17,6 +17,7 @@ namespace Lab6_Pub
 
         Random Random = new Random();
         bool pubOpen = true;
+        public bool isHome = false;
         public delegate void Listbox_Add_Delegate(String str);
         public delegate void Add_Patron_To_Queue_Delegate(Patron patron);
         public delegate void Change_Patrons_Counter_Delegate(int value);
@@ -81,6 +82,7 @@ namespace Lab6_Pub
                     }
                 }
             }
+            isHome = true;
             listbox_Add_Delegate("The bouncer goes home");
         }
     }

@@ -39,8 +39,8 @@ namespace Lab6_Pub
                 Thread.Sleep(10);
                 if (firstInQueue(this) && check_For_Available_Chair())
                 {
-                    add_To_Listbox_Patron($"{Name} sits down and drinks the beer");
                     Chair = take_Chair();
+                    add_To_Listbox_Patron($"{Name} sits down and drinks the beer");
                     if (guestStaylonger)
                     {
                         Thread.Sleep(Random.Next((minTime * intManipulator*slowGuests), (maxTime * intManipulator*slowGuests)));
