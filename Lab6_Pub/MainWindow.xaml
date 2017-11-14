@@ -31,16 +31,16 @@
         <Label x:Name="Label_Patron_BarQueue_Count" Content="0" HorizontalAlignment="Left" Margin="854,228,0,0" VerticalAlignment="Top"/>
         <Label Content="Chair Queue:" HorizontalAlignment="Left" Margin="790,204,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Patron_ChairQueue_Count" Content="0" HorizontalAlignment="Left" Margin="864,204,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="9" Name="Chair_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" />
+        <TextBox Text="9" Name="Chair_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" />
         <Label Content="Available Chairs:" HorizontalAlignment="Left" Margin="790,178,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Available_Chairs_Count" Content="0" HorizontalAlignment="Left" Margin="880,178,0,0" VerticalAlignment="Top"/>
         <Label Content="Dirty Glasses:" HorizontalAlignment="Left" Margin="790,152,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Dirty_Glasses_Count" Content="0" HorizontalAlignment="Left" Margin="865,152,0,0" VerticalAlignment="Top"/>
-        <Label Content="Chairs" HorizontalAlignment="Left" Margin="985,112,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Glasses_TextBox" Text="8" HorizontalAlignment="Left" Height="23" Margin="1033,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55"/>
-        <Label Content="Glasses" HorizontalAlignment="Left" Margin="984,83,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Timer_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,147,0,0" TextWrapping="Wrap" Text="120" VerticalAlignment="Top" Width="55"/>
-        <Label Content="Timer" HorizontalAlignment="Left" Margin="990,145,0,0" VerticalAlignment="Top"/>
+        <Label Content="Chairs" HorizontalAlignment="Left" Margin="985,141,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Glasses_TextBox" Text="8" HorizontalAlignment="Left" Height="23" Margin="1033,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55"/>
+        <Label Content="Glasses" HorizontalAlignment="Left" Margin="984,112,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Timer_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,176,0,0" TextWrapping="Wrap" Text="120" VerticalAlignment="Top" Width="55"/>
+        <Label Content="Timer" HorizontalAlignment="Left" Margin="990,174,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Patrons" Content="Patrons:" HorizontalAlignment="Left" Margin="789,103,0,0" VerticalAlignment="Top"/>
         <Label x:Name="Label_Patron_Count" Content="0" HorizontalAlignment="Left" Margin="836,103,0,0" VerticalAlignment="Top"/>
 
@@ -62,13 +62,14 @@
         <Label x:Name="ChartBar_Label5" Content="" FontSize="10" HorizontalAlignment="Left" Margin="892,0,0,11" VerticalAlignment="Bottom" Width="36"/>
         <Label Content="Patrons in bar:" FontWeight="Bold" HorizontalAlignment="Left" Margin="786,252,0,0" VerticalAlignment="Top" ToolTip="Updated every 5 seconds"/>
 
-        <TextBox x:Name="Speed_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,175,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="55"/>
-        <Label Content="Speed" HorizontalAlignment="Left" Margin="989,172,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Speed_TextBox" HorizontalAlignment="Left" Height="23" Margin="1033,204,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="55"/>
+        <Label Content="Speed" HorizontalAlignment="Left" Margin="989,201,0,0" VerticalAlignment="Top"/>
 
-        <CheckBox x:Name="CheckBoxCouplesNight" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Couples' Night" ToolTip="The bartender admits two patrons at a time" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="990,223,0,0" VerticalAlignment="Top" />
-        <CheckBox x:Name="CheckBoxGuestsStayLonger" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Guests Stay Longer" ToolTip="Guests stay twice as long" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="967,263,0,0" VerticalAlignment="Top" />
-        <CheckBox x:Name="CheckBoxFastWaitress" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Fast Waitress" ToolTip="Waitress works twice as fast" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="1000,203,0,0" VerticalAlignment="Top" />
-        <CheckBox x:Name="CheckBoxBusScenario" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Bus Scenario" ToolTip="Bounces lets patrons in half as fast but after 20 seconds a bus arrives with 15 patrons at once" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="1001,243,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxCouplesNight" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Couples' Night" ToolTip="The bartender admits two patrons at a time" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="990,252,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxGuestsStayLonger" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Guests Stay Longer" ToolTip="Guests stay twice as long" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="967,292,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxFastWaitress" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Fast Waitress" ToolTip="Waitress works twice as fast" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="1000,232,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxBusScenario" ToolTipService.ShowOnDisabled="True" IsChecked="False" Content="Bus Scenario" ToolTip="Bounces lets patrons in half as fast but after 20 seconds a bus arrives with 15 patrons at once" IsEnabled="True" FlowDirection="RightToLeft" HorizontalAlignment="Left" Margin="1001,272,0,0" VerticalAlignment="Top" />
+        <Label Content="Settings:" FontWeight="Bold" HorizontalAlignment="Left" Margin="1029,83,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
