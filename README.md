@@ -9,4 +9,6 @@ Objectives:
 - Learn Tasks and asynchonous programming
 - Learn how to handle threads
 
+Technologies used:
 
+C#, Asynchronous programming with tasks.
